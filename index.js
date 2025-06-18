@@ -13,8 +13,8 @@ app.use(express.json());
 
 // MongoDB config
 const MONGO_URI = process.env.MONGO_URI;
-const DB_NAME = process.env.DB_NAME || 'chantier_planning';
-const COLLECTION_NAME = process.env.COLLECTION_NAME || 'chantiers';
+const DB_NAME = process.env.DB_NAME;
+const COLLECTION_NAME = process.env.COLLECTION_NAME;
 
 let db, chantiersCollection;
 
