@@ -1,6 +1,47 @@
 # Chantier Planning Tool Node.js Backend
+# Update packages
+sudo apt update && sudo apt upgrade -y
 
-## Setup
+# Install Node.js (LTS) via NodeSource
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+### Setup
+
+# Set Up Nginx Reverse Proxy with SSL
+
+```bash
+sudo apt install -y nginx certbot python3-certbot-nginx
+```
+## Create Nginx config
+
+```bash
+sudo nano /etc/nginx/sites-available/dsmetal
+```
+
+```bash
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    location / {
+        proxy_pass http://localhost:5050;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+```bash
+sudo ln -s /etc/nginx/sites-available/dsmetal /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+```
+## Get SSL Certificate
+```bash
+sudo certbot --nginx -d your-domain.com
+```
 
 1. Open a terminal in the `backend-node` directory.
 2. Install dependencies:
